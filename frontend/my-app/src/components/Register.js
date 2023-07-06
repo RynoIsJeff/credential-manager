@@ -17,10 +17,7 @@ const Register = () => {
     axios
       .get(`/api/users/check-username/${username}`)
       .then((response) => {
-        if (response.data.exists) {
-          // Display an error toast message indicating the username is already taken
-          toast.error('Username is already taken. Please choose a different one.');
-        } else {
+        if (response.data.available) {
           // Make the API call to the registration endpoint
           axios
             .post('/api/users/register', {
@@ -39,6 +36,9 @@ const Register = () => {
               console.error('Error registering:', error);
               toast.error('Registration failed. Please try again.');
             });
+        } else {
+          // Display an error toast message indicating the username is already taken
+          toast.error('Username is already taken. Please choose a different one.');
         }
       })
       .catch((error) => {
@@ -80,6 +80,7 @@ const Register = () => {
         </div>
         <button type="submit">Register</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
