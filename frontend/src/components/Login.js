@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/login.css';
+import ApplicationContext from '../state';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useContext(ApplicationContext);
+  const navigate = useNavigate();
 
   const handleLoginSubmit = (event) => {
     event.preventDefault();
@@ -21,6 +25,8 @@ const Login = () => {
         // Display a success toast message
         toast.success('Login successful!');
         // Redirect or update the UI based on a successful login
+        login()
+        navigate("/")
       })
       .catch(error => {
         // Handle error responses from the backend
@@ -32,7 +38,7 @@ const Login = () => {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2 className='text-center'>Login</h2>
       <form onSubmit={handleLoginSubmit} className="login-form">
         <label>
           Username:
@@ -51,6 +57,13 @@ const Login = () => {
           />
         </label>
         <button type="submit">Login</button>
+        <br />
+        <br />
+        <div>
+          You don't have an account? <NavLink to="/register" >
+            <span>Register</span>
+          </NavLink>
+        </div>
       </form>
       <ToastContainer />
     </div>

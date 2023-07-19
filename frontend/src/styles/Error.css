@@ -1,0 +1,21 @@
+#error-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  min-height: 100vh;
+}
+
+#error-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+#error-page p {
+  margin-bottom: 0.5rem;
+}
+
+#error-page i {
+  color: #6c757d; 
+}

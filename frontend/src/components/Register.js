@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/register.css';
+import { NavLink } from 'react-router-dom';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -49,11 +50,12 @@ const Register = () => {
 
   return (
     <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegisterSubmit}>
+      <h2 className='text-center'>Register</h2>
+      <form onSubmit={handleRegisterSubmit} className='register-form'>
         <div>
           <label htmlFor="username">Username</label>
           <input
+          required
             type="text"
             id="username"
             value={username}
@@ -67,6 +69,7 @@ const Register = () => {
             id="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            required
           />
         </div>
         <div>
@@ -76,10 +79,19 @@ const Register = () => {
             id="confirmPassword"
             value={confirmPassword}
             onChange={(event) => setConfirmPassword(event.target.value)}
+            required
           />
         </div>
         <button type="submit">Register</button>
+        <br />
+        <br />
+        <div>
+          You already have an account? <NavLink to="/login" >
+            <span>Login</span>
+          </NavLink>
+          </div>
       </form>
+      
       <ToastContainer />
     </div>
   );

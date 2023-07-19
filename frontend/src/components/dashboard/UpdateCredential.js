@@ -1,14 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const UpdateCredential = ({ credentialId }) => {
+const UpdateCredential = () => {
+  const { credentialId } = useParams();
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+
+
+  const handleUpdateCredential = (event) => {
+    event.preventDefault();
+
+    axios.put(`/api/repositories/credential/${credentialId}`, {
+      name,
+      username,
+      password,
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then(response => {
+        console.log('Credential updated:', response.data);
+        toast.success("Credential updated successfuly")
+      })
+      .catch(error => {
+        console.error('Error updating credential:', error);
+        toast.error(error.response?.data?.message ?? error.message);
+      });
+  };
   useEffect(() => {
-    // Fetch the existing credential data and populate the form
-    axios.get(`/api/users/credential/${credentialId}`)
+    axios.get(`/api/repositories/credential/${credentialId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
       .then(response => {
         const { credential } = response.data;
         // Populate the form fields with the existing credential data
@@ -22,33 +51,12 @@ const UpdateCredential = ({ credentialId }) => {
       });
   }, [credentialId]);
 
-  const handleUpdateCredential = (event) => {
-    event.preventDefault();
-
-    // Make a request to the backend to update the credential
-    axios.put(`/api/users/credential/${credentialId}`, {
-      name,
-      username,
-      password,
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`, // Include the JWT token in the request headers
-      },
-    })
-      .then(response => {
-        // Handle success
-        console.log('Credential updated:', response.data);
-      })
-      .catch(error => {
-        console.error('Error updating credential:', error);
-        // Handle error
-      });
-  };
-
   return (
     <div>
-      <h2>Update Credential</h2>
-      <form onSubmit={handleUpdateCredential}>
+      <h2 className="text-center">Update Credential</h2>
+      <form onSubmit={handleUpdateCredential} className="dashboard-form">
+
+
         <label>
           Name:
           <input
