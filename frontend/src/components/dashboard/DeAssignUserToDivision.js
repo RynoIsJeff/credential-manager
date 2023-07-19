@@ -39,7 +39,6 @@ const DeAssignUserToDivision = () => {
       toast.error(error.response?.data?.message ?? error.message);
     }
   }
-
   const getUserDivisions = (userId) => {
     let user = users.find(user => user._id === userId)
     return user.divisions.map(division => ({ ...division, ou: user.ous.find(ou => ou._id === division.ou) }));
